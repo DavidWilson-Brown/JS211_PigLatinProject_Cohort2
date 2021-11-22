@@ -1,16 +1,7 @@
 'use strict';
 
-const textInput = document.getElementByID('textInput');
-const textOutput = document.getElementByID('textOutPut');
-
-textInput.addEventListener('keyup', (e) => {
-  const input = e.target.value;
-  // translate to pig latin and display new text
-  textOutput.innerText = input;
-});
 // brings in the assert module for unit testing
 const assert = require('assert');
-const { waitForDebugger } = require('inspector');
 // brings in the readline module to access the command line
 const readline = require('readline');
 // use the readline module to print out to the command line
@@ -20,35 +11,43 @@ const rl = readline.createInterface({
 });
 
 
-const pigLatin = (str) => {
-    // get the reference for the body
-    let body = document.getElementsByTagName("body");
-    // creates an <input> element
-    let input = document.
-    // Convert string to lowercase and trim
-    str = str.toLowerCase().trim();
-    // Initialize array of vowels
-    const vowels = ["a", "e", "i", "o", "u"];
-    // Initialize vowel index to 0
-    let vowelIndex = 0;
+const pigLatin = (word) => {
+
+  /**
+   * Write a function that returns pigLatin
+   * if word starts with vowel, add 'yay' to end
+   * if word starts with consonant, find the first vowel,
+   * split the word at the first vowel,
+   * then add 'ay' to the end of the word
+   * if word does not contain a vowel, add 'ay' to end
+   * @param {string} word - represents word being transcribed into pigLatin
+   * @returns word in pigLatin
+   */
+
+  // take accidental spaces out of the word &&
+  // change all letters to lowerCase
+  word = word.toLowerCase();
+  word = word.trim();
+
+  // create a variable that holds an array of the five vowels
+  let vowels = ['a', 'e', 'i', 'o', 'u'];
   
-    if (vowels.includes(str[0])) {
-      // If first letter is a vowel
-      return str + "yay";
-    } else {
-      // If the first letter isn't a vowel i.e is a consonant
-      for (let char of str) {
-        // Loop through until the first vowel is found
-        if (vowels.includes(char)) {
-          // Store the index at which the first vowel exists
-          vowelIndex = str.indexOf(char);
-          break;
-        }
-      }
-      // Compose final string
-      return str.slice(vowelIndex) + str.slice(0, vowelIndex) + "ay";
+  // loop through the given word to find the first vowel or any vowels
+  // the loop starts at 0, runs the length of the word, and increments by 1
+  for(let letter = 0; letter < word.length; letter++) {
+    // the includes() method will check if there is a vowel at the 0 index
+    if(vowels.includes(word[0])) {
+      // if so, it will add 'yay' to the word
+      return word + 'yay'
+      // else if a vowel is included in the word
+    } else if(vowels.includes(word[letter])) {
+      // it will return the word, sliced at the index before the vowel
+      // and concatenate
+      return word.slice(letter) + word.slice(0, letter) + 'ay';
     }
-  }
+  } 
+
+}
 
 // the first function called in the program to get an input from the user
 // to run the function use the command: node main.js
@@ -86,10 +85,8 @@ if (typeof describe === 'function') {
 } else {
 
   getPrompt();
-  
+
 }
-
-
 
 
 
